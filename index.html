@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harvey Support Specialist — Week 1 Onboarding</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --harvey-dark:#1F1D1A;
+    --harvey-warm:#F5F2EC;
+    --harvey-mid:#3A3733;
+    --harvey-accent:#C8A96E;
+    --harvey-teal:#2E7D6E;
+    --harvey-red:#C04A3A;
+    --harvey-light:#FAFAF7;
+    --harvey-gold-light:#F0E6CC;
+  }
+  html,body{height:100%;font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--harvey-warm);color:var(--harvey-dark)}
+  .module{max-width:740px;margin:0 auto;padding:0 0 3rem}
+
+  /* PROGRESS */
+  .progress-wrap{background:var(--harvey-dark);padding:13px 22px;position:sticky;top:0;z-index:100;display:flex;align-items:center;gap:14px}
+  .progress-logo{font-size:15px;font-weight:800;color:#fff;letter-spacing:0.06em;flex-shrink:0;display:flex;align-items:center;gap:7px}
+  .logo-glyph{width:24px;height:24px;border:2px solid var(--harvey-accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--harvey-accent)}
+  .progress-bar-track{flex:1;height:3px;background:rgba(255,255,255,0.12);border-radius:2px}
+  .progress-bar-fill{height:3px;background:var(--harvey-accent);border-radius:2px;transition:width 0.5s ease}
+  .progress-label{font-size:11px;color:rgba(255,255,255,0.45);flex-shrink:0;min-width:40px;text-align:right}
+
+  /* SLIDES */
+  .slide{display:none;animation:fadeUp 0.4s ease}
+  .slide.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* HERO */
+  .hero{background:var(--harvey-dark);min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+  .hero-ring{position:absolute;border-radius:50%;border:1px solid rgba(200,169,110,0.1)}
+  .hero-ring.r1{width:340px;height:340px;top:-100px;right:-100px}
+  .hero-ring.r2{width:220px;height:220px;bottom:-70px;left:-50px}
+  .hero-ring.r3{width:160px;height:160px;top:20px;left:30px;border-color:rgba(200,169,110,0.06)}
+  .hero-badge{font-size:10px;letter-spacing:0.16em;color:var(--harvey-accent);text-transform:uppercase;margin-bottom:16px;font-weight:700;background:rgba(200,169,110,0.1);padding:5px 14px;border-radius:20px;border:1px solid rgba(200,169,110,0.2)}
+  .hero h1{font-size:30px;font-weight:800;color:#fff;line-height:1.2;margin-bottom:12px;position:relative;z-index:1;max-width:480px}
+  .hero p{font-size:14px;color:rgba(255,255,255,0.55);line-height:1.7;max-width:420px;position:relative;z-index:1}
+  .hero-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--harvey-accent),#a07840);display:flex;align-items:center;justify-content:center;margin-bottom:20px;font-size:36px;position:relative;z-index:1;animation:float 3s ease-in-out infinite;box-shadow:0 8px 24px rgba(200,169,110,0.3)}
+  @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+  /* CARDS */
+  .card{background:#fff;border-radius:14px;margin:16px;padding:26px;border:0.5px solid rgba(31,29,26,0.08);box-shadow:0 2px 12px rgba(0,0,0,0.04)}
+  .card-eyebrow{font-size:10px;font-weight:700;color:var(--harvey-accent);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+  .eyebrow-num{width:20px;height:20px;border-radius:50%;background:var(--harvey-dark);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .card h2{font-size:21px;font-weight:800;color:var(--harvey-dark);margin-bottom:10px;line-height:1.3}
+  .card p{font-size:13.5px;color:#5a5650;line-height:1.75;margin-bottom:10px}
+  .card p:last-child{margin-bottom:0}
+
+  /* STATS */
+  .stats-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0 4px}
+  .stat{background:var(--harvey-dark);border-radius:10px;padding:16px;text-align:center}
+  .stat-num{font-size:24px;font-weight:800;color:var(--harvey-accent);line-height:1}
+  .stat-label{font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px}
+
+  /* SPEECH BUBBLES */
+  .speech{display:flex;gap:14px;align-items:flex-start;background:var(--harvey-gold-light);border-radius:12px;padding:16px;margin:14px 0;border-left:3px solid var(--harvey-accent)}
+  .char{font-size:34px;flex-shrink:0;animation:wiggle 3s ease-in-out infinite}
+  @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(-6deg)}75%{transform:rotate(6deg)}}
+  .speech-inner .speaker-name{font-size:10px;font-weight:800;color:var(--harvey-accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:5px}
+  .speech-inner p{font-size:13px;color:#3a3530;line-height:1.65;margin:0}
+
+  /* PRODUCT GRID */
+  .product-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .prod-card{background:var(--harvey-warm);border-radius:10px;padding:15px;border:1.5px solid rgba(31,29,26,0.08);cursor:pointer;transition:all 0.22s;user-select:none}
+  .prod-card:hover{border-color:var(--harvey-accent);background:var(--harvey-gold-light);transform:translateY(-2px)}
+  .prod-card.active-prod{border-color:var(--harvey-accent);background:var(--harvey-dark)}
+  .prod-card.active-prod .prod-name,.prod-card.active-prod .prod-sub{color:#fff}
+  .prod-icon{font-size:24px;margin-bottom:8px}
+  .prod-name{font-size:13px;font-weight:700;color:var(--harvey-dark);margin-bottom:3px}
+  .prod-sub{font-size:11.5px;color:#888;line-height:1.5}
+  .prod-detail{margin-top:12px;background:var(--harvey-dark);border-radius:10px;padding:18px;display:none;animation:fadeUp 0.3s ease}
+  .prod-detail.show{display:block}
+  .prod-detail-head{font-size:12px;font-weight:700;color:var(--harvey-accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em}
+  .prod-detail p{font-size:13px;color:rgba(255,255,255,0.72);line-height:1.65;margin:0}
+
+  /* VALUES */
+  .values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+  .val-card{background:var(--harvey-dark);border-radius:10px;padding:18px;text-align:center}
+  .val-icon{font-size:26px;margin-bottom:10px;display:block;animation:pulse 2.5s ease-in-out infinite}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+  .val-name{font-size:12px;font-weight:800;color:var(--harvey-accent);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.08em}
+  .val-desc{font-size:11.5px;color:rgba(255,255,255,0.55);line-height:1.55}
+
+  /* CHECKLIST */
+  .checklist{list-style:none;margin:10px 0 0}
+  .checklist li{display:flex;align-items:flex-start;gap:10px;font-size:13px;color:#4a4540;padding:9px 0;border-bottom:0.5px solid rgba(0,0,0,0.05);line-height:1.55}
+  .checklist li:last-child{border-bottom:none}
+  .check-dot{width:22px;height:22px;border-radius:50%;background:var(--harvey-teal);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+  /* SCENARIOS */
+  .scenario{background:var(--harvey-warm);border-radius:10px;padding:15px 16px;margin-bottom:9px;border-left:3px solid var(--harvey-teal);cursor:pointer;transition:border-color 0.2s}
+  .scenario:hover{border-left-color:var(--harvey-accent)}
+  .scenario.open{border-left-color:var(--harvey-accent)}
+  .scenario-q{font-size:13px;font-weight:600;color:var(--harvey-dark);display:flex;justify-content:space-between;align-items:flex-start;gap:10px;line-height:1.5}
+  .toggle-arrow{font-size:11px;color:var(--harvey-accent);flex-shrink:0;transition:transform 0.25s;margin-top:2px}
+  .scenario.open .toggle-arrow{transform:rotate(180deg)}
+  .scenario-a{font-size:12.5px;color:#555;margin-top:10px;line-height:1.65;display:none;padding-top:10px;border-top:0.5px solid rgba(0,0,0,0.07)}
+  .scenario.open .scenario-a{display:block}
+
+  /* QUICK REF */
+  .ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .ref-card{background:var(--harvey-warm);border-radius:10px;padding:15px}
+  .ref-card-title{font-size:11px;font-weight:800;color:var(--harvey-dark);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+  .ref-card ul{list-style:none}
+  .ref-card ul li{font-size:12px;color:#5a5550;padding:3.5px 0;padding-left:13px;position:relative;line-height:1.5}
+  .ref-card ul li::before{content:"›";position:absolute;left:0;color:var(--harvey-accent);font-weight:800}
+
+  /* QUIZ */
+  .quiz-counter{font-size:11px;color:#999;margin-bottom:14px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase}
+  .quiz-q{font-size:15px;font-weight:700;color:var(--harvey-dark);margin-bottom:18px;line-height:1.5}
+  .quiz-opts{display:flex;flex-direction:column;gap:8px;margin-bottom:14px}
+  .quiz-opt{background:var(--harvey-warm);border:1.5px solid rgba(31,29,26,0.1);border-radius:9px;padding:13px 16px;font-size:13px;color:var(--harvey-dark);cursor:pointer;text-align:left;transition:all 0.2s;line-height:1.45;font-family:inherit}
+  .quiz-opt:hover:not(:disabled){border-color:var(--harvey-accent);background:var(--harvey-gold-light)}
+  .quiz-opt.correct{background:#E8F5E9;border-color:#2E7D32;color:#1B5E20}
+  .quiz-opt.wrong{background:#FFEBEE;border-color:#C62828;color:#B71C1C}
+  .quiz-opt:disabled{cursor:default}
+  .quiz-feedback{font-size:13px;padding:13px 15px;border-radius:9px;margin-bottom:12px;line-height:1.6;display:none}
+  .quiz-feedback.show{display:block}
+  .quiz-feedback.correct{background:#E8F5E9;color:#1B5E20;border:1px solid #A5D6A7}
+  .quiz-feedback.wrong{background:#FFEBEE;color:#B71C1C;border:1px solid #EF9A9A}
+  .score-wrap{text-align:center;padding:28px 16px}
+  .score-emoji{font-size:52px;display:block;margin-bottom:14px;animation:pop 0.5s ease}
+  @keyframes pop{0%{transform:scale(0.5)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .score-num{font-size:52px;font-weight:800;color:var(--harvey-dark);line-height:1}
+  .score-denom{font-size:16px;color:#999;margin-top:2px}
+  .score-msg{font-size:15px;font-weight:600;color:var(--harvey-dark);margin-top:16px}
+
+  /* COMPLETION */
+  .completion{background:var(--harvey-dark);min-height:360px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:3.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+  .completion .hero-ring{border-color:rgba(200,169,110,0.08)}
+  .comp-icon{font-size:60px;margin-bottom:18px;animation:pop 0.6s ease}
+  .completion h2{font-size:26px;font-weight:800;color:#fff;margin-bottom:10px;position:relative;z-index:1}
+  .completion p{font-size:14px;color:rgba(255,255,255,0.6);max-width:400px;line-height:1.7;margin-bottom:22px;position:relative;z-index:1}
+  .badge{background:var(--harvey-accent);color:var(--harvey-dark);font-size:11px;font-weight:800;padding:7px 18px;border-radius:20px;letter-spacing:0.1em;text-transform:uppercase;position:relative;z-index:1}
+
+  /* NAV */
+  .nav{display:flex;gap:10px;padding:0 16px;margin-top:10px;flex-wrap:wrap}
+  .btn{padding:12px 24px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;border:none;transition:all 0.2s;font-family:inherit}
+  .btn-primary{background:var(--harvey-dark);color:#fff}
+  .btn-primary:hover{background:var(--harvey-mid)}
+  .btn-secondary{background:transparent;color:var(--harvey-dark);border:1.5px solid rgba(31,29,26,0.18)}
+  .btn-secondary:hover{background:var(--harvey-warm)}
+  .btn:active{transform:scale(0.97)}
+
+  /* NEXT STEPS */
+  .next-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+  .next-item{background:var(--harvey-warm);border-radius:10px;padding:14px;display:flex;gap:10px;align-items:flex-start}
+  .next-num{width:24px;height:24px;border-radius:50%;background:var(--harvey-accent);color:var(--harvey-dark);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .next-text{font-size:12.5px;color:#4a4540;line-height:1.55}
+
+  @media(max-width:520px){
+    .product-grid,.ref-grid,.values-grid,.stats-row,.next-grid{grid-template-columns:1fr}
+    .hero h1{font-size:23px}
+    .score-num{font-size:40px}
+  }
+</style>
+</head>
+<body>
+<div class="module">
+
+  <!-- STICKY PROGRESS -->
+  <div class="progress-wrap">
+    <div class="progress-logo">
+      <div class="logo-glyph">⚖</div>
+      HARVEY
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="pbar" style="width:0%"></div>
+    </div>
+    <div class="progress-label" id="plabel">0 / 6</div>
+  </div>
+
+  <!-- SLIDE 0: WELCOME -->
+  <div class="slide active" id="slide-0">
+    <div class="hero">
+      <div class="hero-ring r1"></div>
+      <div class="hero-ring r2"></div>
+      <div class="hero-ring r3"></div>
+      <div class="hero-avatar">⚖️</div>
+      <div class="hero-badge">Support Enablement · Week 1</div>
+      <h1>Welcome to the Harvey Support Team</h1>
+      <p>Your first-week guide to the platform, the people, and what it means to keep the world's leading legal professionals moving.</p>
+    </div>
+    <div class="card">
+      <div class="speech">
+        <div class="char">👋</div>
+        <div class="speech-inner">
+          <div class="speaker-name">Alex — Support Enablement Lead</div>
+          <p>Hey, welcome! You're joining a team that supports over 100,000 lawyers across 1,500+ firms in 60+ countries. That's a lot of people counting on us to move fast and get it right. This module covers the platform, how our team operates, and what your first week looks like. Six sections, one knowledge check — let's go.</p>
+        </div>
+      </div>
+      <div class="stats-row">
+        <div class="stat"><div class="stat-num">1,500+</div><div class="stat-label">Customer firms</div></div>
+        <div class="stat"><div class="stat-num">60+</div><div class="stat-label">Countries served</div></div>
+        <div class="stat"><div class="stat-num">$11B</div><div class="stat-label">Valuation (2026)</div></div>
+      </div>
+      <p style="font-size:12.5px;color:#999;margin-top:14px;">This module has <strong style="color:var(--harvey-dark)">6 sections</strong> including a 5-question knowledge check. Navigate with the buttons below.</p>
+    </div>
+    <div class="nav">
+      <button class="btn btn-primary" onclick="nextSlide()">Let's get started →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 1: PLATFORM -->
+  <div class="slide" id="slide-1">
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">1</span>The Harvey Platform</div>
+      <h2>Know the Product You're Supporting</h2>
+      <p>Harvey is built for legal and professional services. Every ticket you handle connects to one of these core products. Click each card to learn more — including which ticket patterns each product generates.</p>
+      <div class="product-grid" id="product-grid">
+        <div class="prod-card" onclick="expandProd(this,'assistant')">
+          <div class="prod-icon">💬</div>
+          <div class="prod-name">Assistant</div>
+          <div class="prod-sub">Ask questions, analyze documents, and draft faster with domain-specific AI.</div>
+        </div>
+        <div class="prod-card" onclick="expandProd(this,'vault')">
+          <div class="prod-icon">🗄️</div>
+          <div class="prod-name">Vault</div>
+          <div class="prod-sub">Securely store, organize, and bulk-analyze legal documents.</div>
+        </div>
+        <div class="prod-card" onclick="expandProd(this,'knowledge')">
+          <div class="prod-icon">🔍</div>
+          <div class="prod-name">Knowledge</div>
+          <div class="prod-sub">Research complex legal, regulatory, and tax questions across domains.</div>
+        </div>
+        <div class="prod-card" onclick="expandProd(this,'agents')">
+          <div class="prod-icon">🤖</div>
+          <div class="prod-name">Harvey Agents</div>
+          <div class="prod-sub">Purpose-built agents that execute complex legal work end-to-end.</div>
+        </div>
+        <div class="prod-card" onclick="expandProd(this,'workflow')">
+          <div class="prod-icon">⚙️</div>
+          <div class="prod-name">Workflow Agents</div>
+          <div class="prod-sub">Pre-built or custom agents tailored to your firm's specific workflows.</div>
+        </div>
+        <div class="prod-card" onclick="expandProd(this,'command')">
+          <div class="prod-icon">📊</div>
+          <div class="prod-name">Command Center</div>
+          <div class="prod-sub">Analytics, benchmarking, and agentic insights for AI transformation leaders.</div>
+        </div>
+      </div>
+      <div class="prod-detail" id="prod-detail">
+        <div class="prod-detail-head" id="prod-detail-head"></div>
+        <p id="prod-detail-text"></p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="speech">
+        <div class="char">🧑‍💼</div>
+        <div class="speech-inner">
+          <div class="speaker-name">Jordan — Senior Support Specialist</div>
+          <p>Before you touch a ticket, spend 15 minutes actually using the platform. Run a prompt in Assistant. Drop a document into Vault. You'll understand user frustration 10x better once you've felt it yourself.</p>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="prevSlide()">← Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Next: Harvey's Values →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: VALUES -->
+  <div class="slide" id="slide-2">
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">2</span>How Harvey Thinks</div>
+      <h2>Three Values. Every Decision.</h2>
+      <p>These aren't posters on a wall — they're how every team at Harvey operates, including User Operations. You'll feel them in how we handle tickets, build content, and give each other feedback.</p>
+      <div class="values-grid">
+        <div class="val-card">
+          <span class="val-icon">⚡</span>
+          <div class="val-name">Decisiveness</div>
+          <div class="val-desc">Act quickly on clear judgment. Don't wait for perfect information to help a customer who needs an answer now.</div>
+        </div>
+        <div class="val-card">
+          <span class="val-icon">◼</span>
+          <div class="val-name">Simplicity</div>
+          <div class="val-desc">Simple answers scale. If your response needs three paragraphs, keep editing until it doesn't.</div>
+        </div>
+        <div class="val-card">
+          <span class="val-icon">🔁</span>
+          <div class="val-name">Job's Not Finished</div>
+          <div class="val-desc">Closing the ticket isn't the goal. Making sure it never comes back — that's the goal.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">2b</span>Your Team's Operating Rhythm</div>
+      <ul class="checklist">
+        <li><span class="check-dot">✓</span>Daily: check the ticket queue, flag anything trending before standup</li>
+        <li><span class="check-dot">✓</span>Weekly: review QA scores and identify content gaps with the Enablement Lead</li>
+        <li><span class="check-dot">✓</span>Each release: ingest product update notes, update affected guides within 24 hours</li>
+        <li><span class="check-dot">✓</span>Each cohort: debrief with new hires at end of week 1 and week 2</li>
+        <li><span class="check-dot">✓</span>Monthly: review content performance metrics and flag what needs a refresh</li>
+      </ul>
+    </div>
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="prevSlide()">← Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Next: Common Tickets →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: SCENARIOS -->
+  <div class="slide" id="slide-3">
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">3</span>Common Ticket Scenarios</div>
+      <h2>Know It Before It Hits the Queue</h2>
+      <p>These are the most common support patterns across Harvey's customer base. Click each to see the recommended approach — your enablement content should make these instinctive.</p>
+      <div class="speech">
+        <div class="char">🧑‍🏫</div>
+        <div class="speech-inner">
+          <div class="speaker-name">Sam — QA Lead</div>
+          <p>About 40% of escalations trace back to one of these five patterns. When a specialist knows these cold, escalation rates drop fast. That's exactly why enablement content matters.</p>
+        </div>
+      </div>
+      <div class="scenario" onclick="toggleScenario(this)">
+        <div class="scenario-q">"Harvey's answer doesn't cite a source — is it hallucinating?" <span class="toggle-arrow">▼</span></div>
+        <div class="scenario-a">This is the #1 anxiety for new users in legal. Clarify: Harvey cites sources when grounding its answer in documents or legal databases via the Knowledge product. For general reasoning, drafting, or summarization tasks, responses are generated — not retrieved. That's expected behavior, not a bug. Guide users toward Knowledge for citation-heavy research workflows.</div>
+      </div>
+      <div class="scenario" onclick="toggleScenario(this)">
+        <div class="scenario-q">"I uploaded a document to Vault but I can't find it." <span class="toggle-arrow">▼</span></div>
+        <div class="scenario-a">Usually a permissions or workspace context issue. Check whether the user uploaded to a Shared Space vs. their personal workspace. Documents in a shared space may not appear in individual search without the right access level. Walk them through the Vault filter panel — most users haven't found it yet.</div>
+      </div>
+      <div class="scenario" onclick="toggleScenario(this)">
+        <div class="scenario-q">"My Harvey Agent stopped mid-task — what happened?" <span class="toggle-arrow">▼</span></div>
+        <div class="scenario-a">Agents pause on ambiguous inputs or missing context. Direct the user to the Agent's task log in Command Center — it shows exactly where it stopped and why. This is also a great trigger to share a quick-reference guide on writing clearer agent prompts for their firm's specific workflows.</div>
+      </div>
+      <div class="scenario" onclick="toggleScenario(this)">
+        <div class="scenario-q">"How do I know if our team is actually using Harvey?" <span class="toggle-arrow">▼</span></div>
+        <div class="scenario-a">Point them to Command Center — built exactly for this. Adoption metrics, usage by feature, and benchmarking against peer firms are all available there. If they're not seeing data, check that their admin has enabled firm-level reporting under their account settings.</div>
+      </div>
+      <div class="scenario" onclick="toggleScenario(this)">
+        <div class="scenario-q">"Can Harvey review contracts in languages other than English?" <span class="toggle-arrow">▼</span></div>
+        <div class="scenario-a">Yes — Harvey supports multilingual contract review through Contract Intelligence. Performance varies by language and document complexity, so set accurate expectations upfront. Refer them to Harvey Academy for a step-by-step walkthrough on optimizing multilingual workflows.</div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="prevSlide()">← Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Next: Quick Reference →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: QUICK REF -->
+  <div class="slide" id="slide-4">
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">4</span>Quick Reference Guide</div>
+      <h2>Your Day-One Cheat Sheet</h2>
+      <p>Keep this handy. These are the tools, terms, SLA targets, and escalation paths every specialist needs to know from day one.</p>
+      <div class="ref-grid">
+        <div class="ref-card">
+          <div class="ref-card-title">🛠 Core Tools</div>
+          <ul>
+            <li>Zendesk — ticket management</li>
+            <li>Command Center — usage analytics</li>
+            <li>Harvey Academy — training hub</li>
+            <li>Shared Spaces — customer collaboration</li>
+            <li>LMS — your onboarding modules</li>
+          </ul>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">⏱ SLA Targets</div>
+          <ul>
+            <li>Enterprise: first reply &lt; 1 hour</li>
+            <li>Mid-market: first reply &lt; 4 hours</li>
+            <li>All tiers: resolve within SLA window</li>
+            <li>Escalations: flag within 30 min</li>
+            <li>CSAT follow-up: within 24 hours</li>
+          </ul>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">🔁 Escalation Path</div>
+          <ul>
+            <li>Tier 1: Specialist (you)</li>
+            <li>Tier 2: Senior Specialist</li>
+            <li>Tier 3: Enablement Lead</li>
+            <li>Tier 4: Engineering / Product</li>
+            <li>Tag: use [ESCALATE] in Zendesk</li>
+          </ul>
+        </div>
+        <div class="ref-card">
+          <div class="ref-card-title">📦 Harvey Products</div>
+          <ul>
+            <li>Assistant — Q&amp;A + drafting</li>
+            <li>Vault — document storage + analysis</li>
+            <li>Knowledge — cited legal research</li>
+            <li>Agents — end-to-end task execution</li>
+            <li>Command Center — admin analytics</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="speech">
+        <div class="char">🌟</div>
+        <div class="speech-inner">
+          <div class="speaker-name">Alex — Enablement Lead</div>
+          <p>These guides live in the enablement content library. If something's outdated or missing — flag it. Our content is only as good as the feedback we get from the people using it every day. That feedback loop is how we get better.</p>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="prevSlide()">← Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">Next: Knowledge Check →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: QUIZ -->
+  <div class="slide" id="slide-5">
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">5</span>Knowledge Check</div>
+      <h2>Let's See What You've Got</h2>
+      <div class="speech">
+        <div class="char">🎯</div>
+        <div class="speech-inner">
+          <div class="speaker-name">Alex</div>
+          <p>No pressure — this helps us identify where the content needs to work harder, not grade you as a person. Answer honestly and we all learn something useful.</p>
+        </div>
+      </div>
+      <div id="quiz-area"></div>
+    </div>
+    <div class="nav" id="quiz-nav" style="display:none">
+      <button class="btn btn-secondary" onclick="prevSlide()">← Back</button>
+      <button class="btn btn-primary" onclick="nextSlide()">See your completion certificate →</button>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: COMPLETION -->
+  <div class="slide" id="slide-6">
+    <div class="completion">
+      <div class="hero-ring r1"></div>
+      <div class="hero-ring r2"></div>
+      <div class="comp-icon">🎉</div>
+      <h2>Module Complete!</h2>
+      <p>You've finished the Harvey Support Specialist Week 1 onboarding module. You're now equipped with the platform knowledge, ticket patterns, and quick-reference tools to start strong.</p>
+      <div class="badge">✓ Week 1 Onboarding — Certified Complete</div>
+    </div>
+    <div class="card">
+      <div class="card-eyebrow"><span class="eyebrow-num">6</span>Your Next Steps</div>
+      <div class="next-grid">
+        <div class="next-item"><div class="next-num">1</div><div class="next-text">Shadow a Senior Specialist on live tickets for your first two days</div></div>
+        <div class="next-item"><div class="next-num">2</div><div class="next-text">Explore Harvey Academy and bookmark the Assistant product walkthrough</div></div>
+        <div class="next-item"><div class="next-num">3</div><div class="next-text">Join #support-enablement on Slack and introduce yourself to the team</div></div>
+        <div class="next-item"><div class="next-num">4</div><div class="next-text">Complete the Week 1 feedback form so we can improve this module</div></div>
+        <div class="next-item"><div class="next-num">5</div><div class="next-text">Schedule your end-of-week check-in with the Enablement Lead</div></div>
+        <div class="next-item"><div class="next-num">6</div><div class="next-text">Review the content library and flag anything outdated or missing</div></div>
+      </div>
+      <div class="speech" style="margin-top:16px">
+        <div class="char">🤝</div>
+        <div class="speech-inner">
+          <div class="speaker-name">From the whole Support Team</div>
+          <p>We're glad you're here. Harvey's support team is what keeps 100,000+ legal professionals trusting us every single day. The work matters — and so does getting it right. Welcome aboard. Job's not finished. ⚖️</p>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn btn-secondary" onclick="goToSlide(0)">↺ Restart module</button>
+    </div>
+  </div>
+
+</div><!-- end .module -->
+
+<script>
+const TOTAL = 7;
+let current = 0;
+
+const prodDetails = {
+  assistant:{head:'Assistant — Q&A, Drafting, Document Analysis',text:'The core Harvey interface. Users ask legal questions in natural language, upload documents for analysis, and draft legal content. Most common support tickets originate here: prompt quality questions, output format confusion, and citation expectation mismatches.'},
+  vault:{head:'Vault — Secure Document Storage + Bulk Analysis',text:'Users store case files, contracts, and matter documents, then run batch queries across hundreds at once. Common ticket patterns: upload errors, search not returning results, access permissions in Shared Spaces.'},
+  knowledge:{head:'Knowledge — Cited Legal Research Engine',text:'Searches case law, statutes, regulations, and tax questions with source citations. This is where Harvey always cites its sources — an important distinction when users report "hallucinations" in other products like Assistant.'},
+  agents:{head:'Harvey Agents — End-to-End Task Execution',text:'Autonomous agents that execute multi-step legal work without step-by-step prompting. Think: a full due diligence workflow handled automatically. Tickets: agents pausing mid-task, ambiguous input errors, permissions on external document sources.'},
+  workflow:{head:'Workflow Agents — Firm-Specific Automation',text:'Pre-built or custom workflow agents that firms configure for their own processes. Common at large firms with standardized legal workflows. Tickets here often involve configuration questions more than product bugs.'},
+  command:{head:'Command Center — Adoption Analytics + Benchmarking',text:'Admin and leadership dashboard. Tracks adoption metrics, usage by feature, and benchmarks against peer firms. Primary audience: firm IT leads, innovation managers, and c-suite AI transformation sponsors.'}
+};
+
+function expandProd(card, key) {
+  document.querySelectorAll('.prod-card').forEach(c => c.classList.remove('active-prod'));
+  card.classList.add('active-prod');
+  const d = prodDetails[key];
+  const detail = document.getElementById('prod-detail');
+  document.getElementById('prod-detail-head').textContent = d.head;
+  document.getElementById('prod-detail-text').textContent = d.text;
+  detail.classList.add('show');
+}
+
+function toggleScenario(el) { el.classList.toggle('open'); }
+
+const quizData = [
+  {
+    q:"A law firm user says Harvey's response didn't cite any sources. What's the most accurate first response?",
+    opts:["Apologize and escalate to engineering immediately","Explain that Harvey cites sources for grounded tasks like Knowledge research, but generative tasks like drafting don't retrieve sources — that's expected","Tell them to try asking the question again","Confirm that Harvey always provides citations on every response"],
+    correct:1,
+    explanation:"Correct! Harvey's citation behavior depends on the task type. The Knowledge product retrieves and cites sources. Generative drafting and summarization does not — and that's expected behavior, not a bug."
+  },
+  {
+    q:"Which Harvey product should you direct a firm administrator to for adoption analytics and usage benchmarking?",
+    opts:["Harvey Vault","Harvey Assistant","Command Center","Workflow Agents"],
+    correct:2,
+    explanation:"Command Center is built for admins and leaders to monitor how their teams use Harvey, compare against peer firm benchmarks, and track feature adoption across the organization."
+  },
+  {
+    q:"Harvey's three core values are Decisiveness, Simplicity, and ___.",
+    opts:["Speed","Excellence","Job's Not Finished","Customer First"],
+    correct:2,
+    explanation:"Job's Not Finished. Closing the ticket isn't the goal — eliminating the root cause so it doesn't come back is. This mindset drives how Support works with QA and Product to close knowledge gaps permanently."
+  },
+  {
+    q:"A new hire says a document they uploaded to Vault isn't showing up in their search. What's your first diagnostic step?",
+    opts:["Tell them to re-upload the document","Escalate to Tier 2 immediately","Check whether they uploaded to a Shared Space vs. personal workspace and verify their access permissions","Advise them to clear their browser cache and try again"],
+    correct:2,
+    explanation:"Permissions and workspace context are the most common cause of 'missing' Vault documents. Check access settings and walk them through the Vault filter panel before escalating."
+  },
+  {
+    q:"How often should specialists review content performance metrics and flag content that needs refreshing?",
+    opts:["Daily","Weekly","Monthly","Only when a ticket directly highlights a gap"],
+    correct:2,
+    explanation:"Monthly content reviews are part of the Support team's operating rhythm. Combined with weekly QA score reviews, this keeps the content library current without overwhelming the team day-to-day."
+  }
+];
+
+let qIdx = 0, score = 0, answered = false;
+
+function renderQuiz() {
+  const area = document.getElementById('quiz-area');
+  if (qIdx >= quizData.length) {
+    const pct = Math.round((score / quizData.length) * 100);
+    const emoji = pct >= 80 ? '🏆' : pct >= 60 ? '💪' : '📚';
+    const msg = pct >= 80 ? 'Outstanding — you clearly did the reading.' : pct >= 60 ? 'Good foundation. Review the missed questions before going live.' : 'No worries — the content is here to help. Review and try again!';
+    area.innerHTML = `<div class="score-wrap"><span class="score-emoji">${emoji}</span><div class="score-num">${score}/${quizData.length}</div><div class="score-denom">${pct}% correct</div><div class="score-msg">${msg}</div></div>`;
+    document.getElementById('quiz-nav').style.display = 'flex';
+    return;
+  }
+  const q = quizData[qIdx];
+  answered = false;
+  area.innerHTML = `
+    <div class="quiz-counter">Question ${qIdx+1} of ${quizData.length}</div>
+    <div class="quiz-q">${q.q}</div>
+    <div class="quiz-opts" id="opts">
+      ${q.opts.map((o,i) => `<button class="quiz-opt" onclick="selectOpt(this,${i})">${o}</button>`).join('')}
+    </div>
+    <div class="quiz-feedback" id="qfb"></div>
+  `;
+}
+
+function selectOpt(btn, idx) {
+  if (answered) return;
+  answered = true;
+  const q = quizData[qIdx];
+  document.querySelectorAll('.quiz-opt').forEach(b => b.disabled = true);
+  const fb = document.getElementById('qfb');
+  if (idx === q.correct) {
+    btn.classList.add('correct');
+    score++;
+    fb.className = 'quiz-feedback show correct';
+    fb.textContent = '✓ ' + q.explanation;
+  } else {
+    btn.classList.add('wrong');
+    document.querySelectorAll('.quiz-opt')[q.correct].classList.add('correct');
+    fb.className = 'quiz-feedback show wrong';
+    fb.textContent = '✗ ' + q.explanation;
+  }
+  setTimeout(() => { qIdx++; renderQuiz(); }, 2800);
+}
+
+function updateProgress() {
+  const pct = Math.round((current / (TOTAL - 1)) * 100);
+  document.getElementById('pbar').style.width = pct + '%';
+  document.getElementById('plabel').textContent = current + ' / ' + (TOTAL - 1);
+}
+
+function goToSlide(n) {
+  document.getElementById('slide-' + current).classList.remove('active');
+  current = n;
+  document.getElementById('slide-' + current).classList.add('active');
+  updateProgress();
+  window.scrollTo({top:0,behavior:'smooth'});
+  if (current === 5) { qIdx = 0; score = 0; renderQuiz(); }
+}
+
+function nextSlide() { if (current < TOTAL - 1) goToSlide(current + 1); }
+function prevSlide() { if (current > 0) goToSlide(current - 1); }
+
+updateProgress();
+</script>
+</body>
+</html>
